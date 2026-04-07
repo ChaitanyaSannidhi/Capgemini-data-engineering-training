@@ -164,3 +164,82 @@ Join Sales s on e.emp_id = s.emp_id
 Group by e.emp_name
 Having total_count >= 2
 
+-- 21. Calculate the total salary and total sales amount for each employee.
+
+Select e.emp_name ,Sum(distinct e.salary) as Total_Salary , Sum(s.amount) as Total_Sales
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by e.emp_name
+
+-- 22. Count the number of unique products sold by each employee.
+
+Select e.emp_name , Count(Distinct s.product) as Unique_Products
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by e.emp_name
+
+-- 23. Find the highest sales amount made by each employee.
+
+Select e.emp_name , Max(s.amount) as Highest_Sale_Amount
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by e.emp_name
+
+-- 24. Calculate the total sales amount grouped by product and filtered by products where the total exceeds 50,000.
+
+Select  s.product, Sum(s.amount) as Amount
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by s.product
+Having Amount > 50000
+
+-- 25. Find the departments with the highest average sales amount..
+
+Select e.department , Avg(s.amount) as Amount
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by e.department
+Order by Amount desc
+Limit 1
+
+-- 26. Find the department with the highest total sales amount.
+
+Select e.department , Sum(s.amount) as Amount
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by e.department
+Order by Amount desc
+Limit 1
+
+-- 27. Show the top 3 employees with the highest total sales amount, grouped by employee names.
+
+
+Select e.emp_name , Sum(s.amount) as Amount
+From Employee e
+Join Sales s on e.emp_id = s.emp_id
+Group by e.emp_name
+Order by Amount desc
+Limit 3
+
+-- 28. Calculate the total number of employees and the average salary, grouped by the year of joining.
+
+Select Year(joining_date) as Year_of_Joining , Count(emp_name) as No_of_Employees , Avg(salary) as Average_Salary
+From Employee
+Group by Year(joining_date)
+
+-- 29 Find the total sales amount for each department (using a join between Employee and Sales)
+
+Select e.Department , Sum(s.amount) as Total_Sales
+From Employee e
+Join Sales s on s.emp_id = e.emp_id
+Group by e.Department
+
+-- 30. Show employees who have not made any sales, grouped by their department
+
+Select e.emp_name , Sum(s.amount) as Total_Sales , Count(s.product) as Count
+From Employee e
+Join Sales s on s.emp_id = e.emp_id
+Group by e.emp_name
+Having Count = 0
+
+
